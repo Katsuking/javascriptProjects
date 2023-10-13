@@ -1,0 +1,23 @@
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	height: 100vh;
+
+}
+
+.graphics {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5em;
+	padding: .9em;
+}

@@ -1,0 +1,13 @@
+12
+115/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/style.css1693216808397926366 0
+121/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/dist/index.html1693216416008976772 0
+144/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/dist/intersection_observer.3464ddca.js1693216416004976770 0
+132/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/dist/index.7c0ccee6.js.map1693216416012976775 0
+148/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/dist/intersection_observer.3464ddca.js.map1693216416012976775 0
+133/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/dist/index.3a01df49.css.map1693216416012976775 0
+129/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/dist/index.3a01df49.css1693216416008976772 0
+116/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/index.html1693216798897890695 0
+112/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/app.js1693215944498109934 0
+110/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/dist1693216416012976775 1
+128/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer/dist/index.7c0ccee6.js1693216416008976772 0
+105/media/external1/developement/javascriptProjects/playground/js_playground/animation/intersection_observer1693216808397926366 1

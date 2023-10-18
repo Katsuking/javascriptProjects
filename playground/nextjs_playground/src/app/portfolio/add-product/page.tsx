@@ -1,6 +1,7 @@
 import React from "react";
 import prisma from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
+import FormSubmitButton from "@/components/Portfolio/FormSubmitButton";
 
 export const metadata = {
   title: "Add product",
@@ -20,7 +21,7 @@ const addProduct = async (formData: FormData) => {
     data: { name, description, imageUrl, price },
   });
 
-  redirect("/");
+  // redirect("/");
 };
 
 const AddProductPage = () => {
@@ -57,9 +58,7 @@ const AddProductPage = () => {
           className="input-bordered input mb-2 w-full"
           required
         />
-        <button type="submit" className="btn-primary btn-block btn">
-          Add product
-        </button>
+        <FormSubmitButton className="btn-block">Add product</FormSubmitButton>
       </form>
     </div>
   );

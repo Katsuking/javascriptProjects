@@ -3,6 +3,8 @@
 
 import ProductCart from "@/components/Portfolio/Cart/ProductCart";
 import prisma from "@/lib/db/prisma";
+import Image from "next/image";
+import Link from "next/link";
 
 export default async function PortofioPage() {
   const products = await prisma.product.findMany({
@@ -11,7 +13,34 @@ export default async function PortofioPage() {
   return (
     <div>
       {" "}
-      <ProductCart product={products[0]} />
+      {/* <ProductCart product={products[0]} /> */}
+      <div className="hero rounded-xl bg-base-200">
+        <div className="hero-content flex-col lg:flex-row">
+          <Image
+            src={products[0].imageUrl}
+            alt={products[0].name}
+            width={400}
+            height={800}
+            className="w-full max-w-sm rounded-lg shadow-2xl"
+            priority
+          />
+          <div>
+            <h1 className="text-5xl font-bold">{products[0].name}</h1>
+            <p className="py-6">{products[0].description}</p>
+            <Link
+              href={"/portfolio/products/" + products[0].id}
+              className="btn-primary btn"
+            >
+              check this out
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="my-4 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {products.slice(1).map((product) => (
+          <ProductCart product={product} key={product.id} />
+        ))}
+      </div>
     </div>
   );
 }

@@ -21,7 +21,7 @@ const articleList = [
   },
   {
     title: "Landing pageの作成",
-    link: "/portfolio/add-product",
+    link: "/portfolio",
     subtitle: "landing page",
     date: "2023/09/03",
   },

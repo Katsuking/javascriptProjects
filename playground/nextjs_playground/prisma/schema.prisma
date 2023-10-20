@@ -7,19 +7,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model delete_me {
-  id String @id @default(uuid()) @map("_id") @unique
-}
-
 model Product {
-  id String @id @default(uuid()) @map("_id") @unique
+  id          String     @id @unique @default(uuid()) @map("_id")
   description String
-  imageUrl String
-  name String
-  price Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  imageUrl    String
+  name        String
+  price       Int
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  CartItem    CartItem[]
 
   // table名の指定
   @@map("products")
+}
+
+model Cart {
+  id        String     @id @unique @default(uuid()) @map("_id")
+  CartItem  CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String  @id @unique @default(uuid()) @map("_id")
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+
+  @@map("cartitems")
 }

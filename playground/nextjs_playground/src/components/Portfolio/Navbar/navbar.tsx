@@ -3,6 +3,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCart } from "@/lib/db/portfolio/cart";
 import ShoppingCartButton from "./ShoppingCartButton";
+import UserMenuButton from "./UserMenuButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 // search item
 async function searchProduct(formData: FormData) {
@@ -14,6 +17,7 @@ async function searchProduct(formData: FormData) {
 }
 
 export default async function Navbar() {
+  const session = await getServerSession(authOptions); // pageが開く前にsession情報を取得
   const cart = await getCart();
 
   return (
@@ -37,6 +41,7 @@ export default async function Navbar() {
             </div>
           </form>
           <ShoppingCartButton cart={cart} />
+          <UserMenuButton session={session} />
         </div>
       </div>
     </div>

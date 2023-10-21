@@ -98,6 +98,8 @@ DATABASE_URL="mongodb://root:root_password@127.0.0.1:27017/mydb?retryWrites=true
 
 ### NextAuth
 
+[prisma設定](https://next-auth.js.org/v3/adapters/prisma#setup)
+
 .env等に設定する環境変数
 
 ```sh

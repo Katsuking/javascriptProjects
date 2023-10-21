@@ -12,10 +12,19 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     GoogleProvider({
+      // 単純なprocess.envではなくて、zodを使う
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+
+  // add what we want here.
+  callbacks: {
+    session({ session, user }) {
+      session.user.id = user.id; // user テーブルのidを使ってidを作成
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);

@@ -2,6 +2,8 @@ import React from "react";
 import prisma from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
 import FormSubmitButton from "@/components/Portfolio/FormSubmitButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export const metadata = {
   title: "Add product",
@@ -9,6 +11,9 @@ export const metadata = {
 
 const addProduct = async (formData: FormData) => {
   "use server";
+  const session = await getServerSession(authOptions);
+  if (!session) return redirect("/api/auth/signin?callbackUrl=/add-product");
+
   const name = formData.get("name")?.toString();
   const description = formData.get("description")?.toString();
   const imageUrl = formData.get("imageUrl")?.toString();
@@ -24,7 +29,10 @@ const addProduct = async (formData: FormData) => {
   // redirect("/");
 };
 
-const AddProductPage = () => {
+const AddProductPage = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session) return redirect("/api/auth/signin?callbackUrl=/add-product");
+
   // rfce
   return (
     <div>

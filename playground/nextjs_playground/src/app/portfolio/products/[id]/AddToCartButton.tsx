@@ -2,8 +2,6 @@
 
 import { useState, useTransition } from "react";
 
-// こいつだけは、クライアントサイドで実行されてほしい
-
 interface AddToCartButtonProps {
   productId: string;
   incrementProductQuantity: (productId: string) => Promise<void>;

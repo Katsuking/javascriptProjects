@@ -1,10 +1,15 @@
 import prisma from "@/lib/db/prisma";
-import { Cart, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { cookies } from "next/dist/client/components/headers";
 
 // prismaを使って、productの型情報も定義する
 export type CartWithProduct = Prisma.CartGetPayload<{
   include: { CartItem: { include: { product: true } } };
+}>;
+
+// カートの商品情報の型も定義
+export type CartItemWithProduct = Prisma.CartItemGetPayload<{
+  include: { product: true };
 }>;
 
 export type ShoppingCart = CartWithProduct & {

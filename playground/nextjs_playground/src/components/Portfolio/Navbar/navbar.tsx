@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getCart } from "@/lib/db/cart";
+import { getCart } from "@/lib/db/portfolio/cart";
 import ShoppingCartButton from "./ShoppingCartButton";
 
 // search item

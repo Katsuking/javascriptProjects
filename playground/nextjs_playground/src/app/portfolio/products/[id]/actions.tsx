@@ -1,6 +1,8 @@
 "use server";
 
-import { createcart, getCart } from "@/lib/db/cart";
+// こいつだけはクライアントサイドで実行;
+
+import { createcart, getCart } from "@/lib/db/portfolio/cart";
 import prisma from "@/lib/db/prisma";
 import { revalidatePath } from "next/cache";
 

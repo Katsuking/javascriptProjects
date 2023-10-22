@@ -7,6 +7,7 @@ import { Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 import NextAuth from "next-auth/next";
 import { env } from "@/lib/portfolio/env"; // zodを使ってvalidation
+import { mergeAnonymousCartIntoUserCart } from "@/lib/db/portfolio/cart";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
@@ -23,6 +24,13 @@ export const authOptions: NextAuthOptions = {
     session({ session, user }) {
       session.user.id = user.id; // user テーブルのidを使ってidを作成
       return session;
+    },
+  },
+
+  // signing時に処理を行う
+  events: {
+    async signIn({ user }) {
+      await mergeAnonymousCartIntoUserCart(user.id);
     },
   },
 };

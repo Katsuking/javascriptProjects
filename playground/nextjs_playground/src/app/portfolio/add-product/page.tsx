@@ -11,8 +11,9 @@ export const metadata = {
 
 const addProduct = async (formData: FormData) => {
   "use server";
-  const session = await getServerSession(authOptions);
-  if (!session) return redirect("/api/auth/signin?callbackUrl=/add-product");
+  // 面倒なので、一旦loginなし
+  // const session = await getServerSession(authOptions);
+  // if (!session) return redirect("/api/auth/signin?callbackUrl=/add-product");
 
   const name = formData.get("name")?.toString();
   const description = formData.get("description")?.toString();
@@ -22,16 +23,24 @@ const addProduct = async (formData: FormData) => {
   if (!name || !description || !imageUrl || !price) {
     throw Error("Fill all fields");
   }
+
+  // for (let i = 0; i < 50; i++) {
+  //   // for pagination feature
+  //   await prisma.product.create({
+  //     data: { name, description, imageUrl, price },
+  //   });
+  // }
+
   await prisma.product.create({
     data: { name, description, imageUrl, price },
   });
 
-  // redirect("/");
+  redirect("/portfolio");
 };
 
 const AddProductPage = async () => {
-  const session = await getServerSession(authOptions);
-  if (!session) return redirect("/api/auth/signin?callbackUrl=/add-product");
+  // const session = await getServerSession(authOptions);
+  // if (!session) return redirect("/api/auth/signin?callbackUrl=/add-product");
 
   // rfce
   return (

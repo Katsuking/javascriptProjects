@@ -3,6 +3,7 @@
 import { Ref, forwardRef, useImperativeHandle, useState } from "react";
 
 export type ChildCompRef = {
+  checkStatus: (value: boolean) => void;
   reset: () => void;
 };
 
@@ -25,6 +26,7 @@ const ChildComp = ({}: ChildCompProps, ref: Ref<ChildCompRef>) => {
   };
 
   useImperativeHandle(ref, () => ({
+    checkStatus: (value) => console.log("hello world"),
     reset,
   }));
 

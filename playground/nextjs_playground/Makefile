@@ -1,4 +1,4 @@
-COMPOSE:=docker-compose.yml
+COMPOSE:=docker-compose.yaml
 
 .PHONY: dev
 dev: ${COMPOSE} down
@@ -7,7 +7,7 @@ dev: ${COMPOSE} down
 
 .PHONY: shell
 shell: ${COMPOSE}
-	docker compose exec mongo bash
+	docker compose exec db bash
 
 .PHONY: up
 up: ${COMPOSE} down
@@ -18,4 +18,8 @@ up: ${COMPOSE} down
 down: ${COMPOSE}
 	docker compose down >/dev/null 2>&1
 
+.PHONY: build
+build: ${COMPOSE} down
+	docker compose up --build -d
+	docker ps
 

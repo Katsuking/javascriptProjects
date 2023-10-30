@@ -1,6 +1,9 @@
 import React from "react";
 import prisma from "@/lib/db/prisma";
 import { redirect } from "next/navigation";
+import FormSubmitButton from "@/components/Portfolio/FormSubmitButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export const metadata = {
   title: "Add product",
@@ -8,6 +11,10 @@ export const metadata = {
 
 const addProduct = async (formData: FormData) => {
   "use server";
+  // 面倒なので、一旦loginなし
+  // const session = await getServerSession(authOptions);
+  // if (!session) return redirect("/api/auth/signin?callbackUrl=/add-product");
+
   const name = formData.get("name")?.toString();
   const description = formData.get("description")?.toString();
   const imageUrl = formData.get("imageUrl")?.toString();
@@ -16,14 +23,25 @@ const addProduct = async (formData: FormData) => {
   if (!name || !description || !imageUrl || !price) {
     throw Error("Fill all fields");
   }
+
+  // for (let i = 0; i < 50; i++) {
+  //   // for pagination feature
+  //   await prisma.product.create({
+  //     data: { name, description, imageUrl, price },
+  //   });
+  // }
+
   await prisma.product.create({
     data: { name, description, imageUrl, price },
   });
 
-  redirect("/");
+  redirect("/portfolio");
 };
 
-const AddProductPage = () => {
+const AddProductPage = async () => {
+  // const session = await getServerSession(authOptions);
+  // if (!session) return redirect("/api/auth/signin?callbackUrl=/add-product");
+
   // rfce
   return (
     <div>
@@ -57,9 +75,7 @@ const AddProductPage = () => {
           className="input-bordered input mb-2 w-full"
           required
         />
-        <button type="submit" className="btn-primary btn-block btn">
-          Add product
-        </button>
+        <FormSubmitButton className="btn-block">Add product</FormSubmitButton>
       </form>
     </div>
   );

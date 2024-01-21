@@ -65,10 +65,11 @@ npm i react-icons
 ### ORM
 
 いつもどおりprismaを使います
+prisma adapterもインストール
 
 ```sh
+npm install @prisma/client @next-auth/prisma-adapter@canary
 npm i -D prisma
-npm i @prisma/client
 ```
 
 lib/db.ts

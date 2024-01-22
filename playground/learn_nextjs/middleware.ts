@@ -38,7 +38,7 @@ export default auth((req) => {
     return Response.redirect(new URL('/auth/login', nextUrl))
   }
 
-  return nullg
+  return null
 })
 
 export const config = {

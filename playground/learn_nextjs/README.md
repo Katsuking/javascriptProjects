@@ -1,3 +1,7 @@
+### 概要
+
+middlewareを使って、全体をprotected routeに設定する
+
 ### node upgrade using nvm
 
 最新版のインストール
@@ -182,3 +186,7 @@ const user = db.user.
 ```sh
 npx prisma db push
 ```
+
+### auth.config.ts
+
+[Edge compatibility](https://authjs.dev/guides/upgrade-to-v5?authentication-method=middleware#edge-compatibility)

@@ -12,7 +12,7 @@ export const PublicRoutes = ['/']
  * These routes routes will redirect logged in users to a specific page.
  * @type {stirng[]}
  */
-export const authRoutes = ['/auth/login', '/auth/register']
+export const authRoutes = ['/auth/login', '/auth/register', '/auth/error']
 
 /**
  * The prefix for API authentication routes

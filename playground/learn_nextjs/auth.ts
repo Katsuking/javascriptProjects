@@ -29,15 +29,20 @@ export const {
     },
   },
   callbacks: {
-    // async signIn({ user }) {
-    //   // console.log({ user })
-    //   const existingUser = getUserById(user.id)
-    //   if (!existingUser || !existingUser.emailVerified) {
-    //     return false
-    //   }
+    async signIn({ user, account }) {
+      // console.log({ user })
 
-    //   return true
-    // },
+      // allow OAuth without email verification
+      if (account?.provider !== 'credentials') return true
+
+      // prevent sign in verification email verification
+      const existingUser = await getUserById(user.id)
+      if (!existingUser?.emailVerified) return false
+
+      // Add 2FA check
+
+      return true
+    },
 
     async session({ session, token }) {
       if (token.sub && session.user) {

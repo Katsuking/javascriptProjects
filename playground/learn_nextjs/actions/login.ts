@@ -2,15 +2,15 @@
 
 import { signIn } from '@/auth'
 import { getUserByEmail } from '@/data/user'
+import { sendVerificationEmail } from '@/lib/mail'
 import { generateVerificationToken } from '@/lib/token'
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
 import { LoginSchema } from '@/schemas'
-import { error } from 'console'
 import { AuthError } from 'next-auth'
 import * as z from 'zod'
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-  console.log(values)
+  // console.log(values)
   4
   // client側のvalidationは簡単にbypassできてしまうので,server側でもしっかりvalidationはいる
   const validatedFields = LoginSchema.safeParse(values)
@@ -30,6 +30,13 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     const verificationToken = await generateVerificationToken(
       existingUser.email
     )
+
+    // send a confirmation email with resend
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    )
+
     return { success: 'Confirmation email sent' }
   }
 

@@ -5,14 +5,20 @@
  * These routes do not require authentication
  * @type {stirng[]}
  */
-export const PublicRoutes = ['/']
+export const PublicRoutes = ['/', '/auth/new-verification']
 
 /**
  * An array of routes that are used for authentication.
  * These routes routes will redirect logged in users to a specific page.
  * @type {stirng[]}
  */
-export const authRoutes = ['/auth/login', '/auth/register', '/auth/error']
+export const authRoutes = [
+  '/auth/login',
+  '/auth/register',
+  '/auth/error',
+  '/auth/reset',
+  '/auth/new-password',
+]
 
 /**
  * The prefix for API authentication routes

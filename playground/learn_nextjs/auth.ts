@@ -3,6 +3,7 @@ import authConfig from '@/auth.config'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { db } from '@/lib/db'
 import { getUserById } from '@/data/user'
+import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation'
 
 export const {
   handlers: { GET, POST },
@@ -37,9 +38,19 @@ export const {
 
       // prevent sign in verification email verification
       const existingUser = await getUserById(user.id)
-      if (!existingUser?.emailVerified) return false
+      if (!existingUser?.emailVerified) return false;
 
-      // Add 2FA check
+      // 2段階認証を有効にしている場合は、2段階認証
+      if ( existingUser?.isTwoFactorEnabled ) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
+        console.log({twoFactorConfirmation}); // null であれば、ログインさせてはいけない。
+        if (!twoFactorConfirmation) return false;
+
+        // Delete two factor confirmation for next sign in.
+        await db.twoFactorConfirmation.delete({
+          where: {id: twoFactorConfirmation.id}
+        })
+      }
 
       return true
     },

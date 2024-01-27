@@ -27,6 +27,7 @@ const LoginForm = () => {
   const urlError = searchParams.get("error") === "OAuthAccountNotLinked"
     ? "Email already in use with different account" : "";
 
+  const [showTwoFactor, setShowTwoFactor] = useState(false);
   const [error, setError] = useState<string | undefined>();
   const [success, setSuccess] = useState<string | undefined>();
 
@@ -50,10 +51,23 @@ const LoginForm = () => {
       // server actions
       login(values)
         .then((data) => {
-          setError(data?.error)
-          // TODO: Add when add 2FA
-          setSuccess(data?.success)
-        });
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+          }
+
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
+
+          if (data?.twoFactor) {
+            setShowTwoFactor(true);
+          }
+        })
+          .catch(() => {
+            setError("Something went wrong!")
+          });
     })
   }
 
@@ -70,7 +84,30 @@ const LoginForm = () => {
           className="space-y-6"
         >
           <div className="space-y-4">
-            <FormField
+            {showTwoFactor && (
+              <>
+              <FormField
+              control={form.control}
+              name="code"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>code</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      disabled={isPending}
+                      placeholder="123456"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+              </>
+            )}
+            {!showTwoFactor && (
+              <>
+              <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
@@ -106,6 +143,8 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
+            </>
+            )}
           </div>
           <FormError message={error || urlError} />
           <FormSuccess message={success} />
@@ -113,7 +152,7 @@ const LoginForm = () => {
             type="submit"
             className="w-full"
           >
-            Log in
+            {showTwoFactor ? "Confirm" : "Login" }
           </Button>
         </form>
       </Form>

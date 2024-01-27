@@ -26,7 +26,6 @@ model User {
   isTwoFactorEnabled Boolean   @default(false)
 
   twoFactorConfirmation   TwoFactorConfirmation? // one to one relationship
-  twoFactorConfirmationId String?
 }
 
 model Account {

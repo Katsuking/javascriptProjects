@@ -58,6 +58,14 @@ npx shadcn-ui@latest add form
 npx shadcn-ui@latest add input
 ```
 
+dropdown-menu
+
+```sh
+npx shadcn-ui@latest add dropdown-menu
+npx shadcn-ui@latest add avatar
+npx shadcn-ui@latest add badge
+```
+
 ### react-icons
 
 Google, Githubなどのアイコンをまとめたパッケージを使う

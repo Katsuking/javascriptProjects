@@ -38,17 +38,19 @@ export const {
 
       // prevent sign in verification email verification
       const existingUser = await getUserById(user.id)
-      if (!existingUser?.emailVerified) return false;
+      if (!existingUser?.emailVerified) return false
 
       // 2段階認証を有効にしている場合は、2段階認証
-      if ( existingUser?.isTwoFactorEnabled ) {
-        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
-        console.log({twoFactorConfirmation}); // null であれば、ログインさせてはいけない。
-        if (!twoFactorConfirmation) return false;
+      if (existingUser?.isTwoFactorEnabled) {
+        const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
+          existingUser.id
+        )
+        console.log({ twoFactorConfirmation }) // null であれば、ログインさせてはいけない。
+        if (!twoFactorConfirmation) return false
 
         // Delete two factor confirmation for next sign in.
         await db.twoFactorConfirmation.delete({
-          where: {id: twoFactorConfirmation.id}
+          where: { id: twoFactorConfirmation.id },
         })
       }
 
@@ -66,6 +68,10 @@ export const {
         session.user.role = token.role
       }
 
+      if (session.user) {
+        session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
+      }
+
       return session
     },
     async jwt({ token }) {
@@ -74,7 +80,10 @@ export const {
 
       const existingUser = await getUserById(token.sub)
       if (!existingUser) return token
+
       token.role = existingUser.role
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
+
       return token
     },
   },

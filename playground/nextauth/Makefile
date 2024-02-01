@@ -7,7 +7,7 @@ dev: ${COMPOSE} down
 
 .PHONY: shell
 shell: ${COMPOSE}
-	docker compose exec nextjs bash
+	docker compose exec db bash
 
 .PHONY: up
 up: ${COMPOSE} down
@@ -17,10 +17,10 @@ up: ${COMPOSE} down
 .PHONY: down
 down: ${COMPOSE}
 	docker compose down >/dev/null 2>&1
+	docker ps
 
 .PHONY: build
 build: ${COMPOSE} down
-	docker compose build --no-cache
-	docker compose up -d
+	docker compose up --build -d
 	docker ps
 

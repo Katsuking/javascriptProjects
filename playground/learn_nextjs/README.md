@@ -66,6 +66,10 @@ npx shadcn-ui@latest add avatar
 npx shadcn-ui@latest add badge
 ```
 
+```sh
+
+```
+
 ### react-icons
 
 Google, Githubなどのアイコンをまとめたパッケージを使う

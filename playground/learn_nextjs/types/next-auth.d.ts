@@ -4,6 +4,7 @@ export type ExtendedUser = DefaultSession['user'] & {
   role: 'ADMIN' | 'USER'
   customField: string
   isTwoFactorEnabled: boolean
+  isOAuth: boolean
 }
 
 declare module 'next-auth' {

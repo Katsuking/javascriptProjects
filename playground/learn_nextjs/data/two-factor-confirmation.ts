@@ -1,15 +1,13 @@
-import { db } from "@/lib/db";
-import { SiTryitonline } from "react-icons/si";
+import { db } from '@/lib/db'
 
 export const getTwoFactorConfirmationByUserId = async (userId: string) => {
   try {
     const twoFactorConfirmation = await db.twoFactorConfirmation.findFirst({
-      where: {userId}
-    });
+      where: { userId },
+    })
 
-    return twoFactorConfirmation;
+    return twoFactorConfirmation
   } catch (error) {
     return null
   }
 }
-

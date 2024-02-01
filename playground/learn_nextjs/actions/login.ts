@@ -43,50 +43,48 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     return { success: 'Confirmation email sent' }
   }
 
-  if (existingUser.isTwoFactorEnabled && existingUser.email) {;
+  if (existingUser.isTwoFactorEnabled && existingUser.email) {
     // ユーザーがlogin / code を押すかによって処理の分岐
     if (code) {
-      const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email);
+      const twoFactorToken = await getTwoFactorTokenByEmail(existingUser.email)
       if (!twoFactorToken) {
-        return { error: "invalid code!"};
+        return { error: 'invalid code!' }
       }
 
       if (twoFactorToken.token !== code) {
-        return { error: "Invalid code! The code is not the same."}
+        return { error: 'Invalid code! The code is not the same.' }
       }
 
-      const hasExpires = new Date(twoFactorToken.expires) < new Date();
+      const hasExpires = new Date(twoFactorToken.expires) < new Date()
       if (hasExpires) {
-        return { error: "Code expired"}
+        return { error: 'Code expired' }
       }
 
       await db.twoFactorToken.delete({
-        where: {id: twoFactorToken.id}
+        where: { id: twoFactorToken.id },
       })
 
       // すでにcofirmationを持ってる場合も削除する
-      const existingConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
+      const existingConfirmation = await getTwoFactorConfirmationByUserId(
+        existingUser.id
+      )
       if (existingConfirmation) {
         await db.twoFactorConfirmation.delete({
-          where: {id: existingConfirmation.id}
+          where: { id: existingConfirmation.id },
         })
       }
 
       // 以上の条件をクリアした場合、confirmationを作成
       await db.twoFactorConfirmation.create({
         data: {
-          userId: existingUser.id
-        }
+          userId: existingUser.id,
+        },
       })
-
     } else {
-      const twoFactorToken = await generateTwoFactorToken(existingUser.email);
-      await sendTwoFactorTokenEmail(
-        twoFactorToken.email,
-        twoFactorToken.token
-      );
+      const twoFactorToken = await generateTwoFactorToken(existingUser.email)
+      await sendTwoFactorTokenEmail(twoFactorToken.email, twoFactorToken.token)
 
-      return { twoFactor: true};
+      return { twoFactor: true }
     }
   }
 

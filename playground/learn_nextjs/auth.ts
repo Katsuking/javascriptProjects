@@ -4,6 +4,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { db } from '@/lib/db'
 import { getUserById } from '@/data/user'
 import { getTwoFactorConfirmationByUserId } from './data/two-factor-confirmation'
+import { getAccountByUserId } from './data/account'
 
 export const {
   handlers: { GET, POST },
@@ -68,6 +69,13 @@ export const {
         session.user.role = token.role
       }
 
+      // settings での更新に必要
+      if (session.user) {
+        session.user.name = token.name
+        session.user.email = token.email
+        session.user.isOAuth = token.isOAuth as boolean
+      }
+
       if (session.user) {
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean
       }
@@ -81,6 +89,10 @@ export const {
       const existingUser = await getUserById(token.sub)
       if (!existingUser) return token
 
+      const existingAccount = await getAccountByUserId(existingUser.id)
+      token.isOAuth = !!existingAccount // to update settings
+      token.name = existingUser.name // to update settings
+      token.email = existingUser.email // to update settings
       token.role = existingUser.role
       token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
 

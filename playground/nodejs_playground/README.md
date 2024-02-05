@@ -26,6 +26,16 @@ docker compose exec web npm i pg --save
 
 [sequelize](https://sequelize.org/docs/v6/other-topics/migrations/)
 
+```sh
+docker compose exec web npm i ejs express-ejs-layouts --save
+```
+
+### debug
+
+```sh
+docker logs -f <コンテナ名>
+```
+
 ### postgres
 
 ```sh

@@ -19,12 +19,12 @@ const jwtOptions = {
 
 // トークンの作成
 const token = jwt.sign(jwtPayload, jwtSecret, jwtOptions);
-console.log("token: ", token);
+// console.log("token: ", token);
 
-sleep.sleep(5); // 検証のために、有効期間を調整
+// sleep.sleep(5); // 検証のために、有効期間を調整
 
 // トークンの検証
-jwt.verify(token, jwtSecret, (err, decoded) => {
+const payload = jwt.verify(token, jwtSecret, (err, decoded) => {
   if (err) {
     console.log("Error: ", err.message);
   } else {
@@ -32,3 +32,7 @@ jwt.verify(token, jwtSecret, (err, decoded) => {
     console.log("token:", decoded);
   }
 });
+
+const verifiedToken = jwt.verify(token, jwtSecret);
+
+console.log(verifiedToken.jti);

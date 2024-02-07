@@ -44,5 +44,6 @@ curl -X POST http://127.0.0.1:3008/user -d ${DATA}  -H ${TYPE}
 
 ```sh
 DATA='{"name":"bonny", "email":"modifiied_bonny@example.com"}'
-curl -X PUT http://127.0.0.1:3008/user/2 -d ${DATA}  -H ${TYPE}
+TYPE="Content-Type: application/json"
+curl -X PUT http://127.0.0.1:3100//2 -d ${DATA}  -H ${TYPE}
 ```

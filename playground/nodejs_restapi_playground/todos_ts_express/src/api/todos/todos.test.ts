@@ -1,0 +1,47 @@
+import request from 'supertest';
+import app from '../../app';
+
+// import { db } from '../../lib/db';
+// beforeAll(async () => {
+//   // 実行前にテーブルを空にする
+//   try {
+//     await db.todos.deleteMany();
+//   } catch (error) {}
+// });
+
+jest.useFakeTimers();
+
+describe('GET /api/v1/todos', () => {
+  it('responds with a json message', (done) => {
+    request(app)
+      .get('/api/v1/todos')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200) // jest よりこのsupertestの方が書きやすい同じ
+      .then((response) => {
+        expect(response.status).toBe(200); // supertest 使わなくても書ける
+        expect(response.body.length).toBe(2); // beforeAll を定義しない場合は、データ追加したら変更すること
+        expect(response.body[0]).toHaveProperty('content'); // zod や prisma.schemaで定義されている
+        expect(response.body[0]).toHaveProperty('done');
+        done();
+      });
+  });
+});
+
+describe('POST /api/v1/todos', () => {
+  it('responds with an error if the todo is invalid', (done) => {
+    request(app)
+      .post('/api/v1/todos')
+      .set('Accept', 'application/json')
+      .send({
+        content: '',
+      })
+      .expect('Content-Type', /json/)
+      .expect(422)
+      .then((response) => {
+        console.log(response.body.message);
+        expect(response.body).toHaveProperty('message');
+        done();
+      });
+  });
+});

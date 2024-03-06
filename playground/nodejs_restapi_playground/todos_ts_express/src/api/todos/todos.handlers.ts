@@ -1,4 +1,3 @@
-import { ZodError } from 'zod';
 import { db } from '../../lib/db';
 import Todo from './todos.schema';
 import type { Todos } from '@prisma/client';
@@ -32,18 +31,14 @@ export const createOne = async (
   next: NextFunction,
 ) => {
   try {
-    // zod を使ったvalidation
-    const validated_data = await Todo.parse(req.body);
+    // const validated_data = await Todo.parseAsync(req.body); // middlewareで定義に変更
     // db 書き込み
     const result = await db.todos.create({
-      data: validated_data,
+      data: req.body, // validation 窯してるからそのまま渡せばいい
     });
 
     return res.json(result);
   } catch (error) {
-    if (error instanceof ZodError) {
-      res.status(422); // zod の validation エラーの場合
-    }
     next(error);
   }
 };

@@ -9,6 +9,8 @@ vscode で prettier を入れている場合は、下記のように設定する
   "prettier.trailingComma": "all",
 ```
 
+postman を使わずに vscode 拡張機能の `rest client`を使う
+
 ### ORM
 
 いつも通り prisma と zod を使っていきます

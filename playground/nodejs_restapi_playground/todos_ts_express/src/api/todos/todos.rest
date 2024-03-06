@@ -1,0 +1,26 @@
+# vscode拡張機能 rest client
+
+### get all todos
+GET http://localhost:5000/api/v1/todos
+
+### post todos O
+# save this data to db
+
+POST http://localhost:5000/api/v1/todos
+Content-Type: application/json
+
+{
+  "content": "Hello world",
+  "done": false
+}
+
+### post todos X
+# content can't be empty
+
+POST http://localhost:5000/api/v1/todos
+Content-Type: application/json
+
+{
+  "content": "",
+  "done": false
+}

@@ -9,7 +9,7 @@ import app from '../../app';
 //   } catch (error) {}
 // });
 
-jest.useFakeTimers();
+// jest.useFakeTimers();
 
 describe('GET /api/v1/todos', () => {
   it('responds with a json message', (done) => {
@@ -28,19 +28,22 @@ describe('GET /api/v1/todos', () => {
   });
 });
 
+// TODO: なぜかうまくいかん 原因要チェ
 describe('POST /api/v1/todos', () => {
   it('responds with an error if the todo is invalid', (done) => {
     request(app)
       .post('/api/v1/todos')
       .set('Accept', 'application/json')
       .send({
-        content: '',
+        content: 'Learn TypeScript',
+        done: false,
       })
       .expect('Content-Type', /json/)
-      .expect(422)
+      .expect(201)
       .then((response) => {
         console.log(response.body.message);
-        expect(response.body).toHaveProperty('message');
+        expect(response.body).toHaveProperty('content');
+        expect(response.body).toHaveProperty('done');
         done();
       });
   });

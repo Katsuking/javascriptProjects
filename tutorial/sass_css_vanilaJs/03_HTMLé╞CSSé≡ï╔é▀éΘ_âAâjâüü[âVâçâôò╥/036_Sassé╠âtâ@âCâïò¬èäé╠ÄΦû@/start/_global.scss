@@ -1,0 +1,8 @@
+@forward 'child';
+@forward 'child2';
+
+@use 'child' as c;
+
+body {
+  background-color: c.$cBule;
+}

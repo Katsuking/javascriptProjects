@@ -1,0 +1,37 @@
+a {
+  color: orange;
+
+  &:visited {
+    color: blue;
+  }
+
+  &:hover {
+    color: red;
+  }
+
+  // 最後に押したもん
+  &:focus {
+    color: green;
+  }
+
+  // クリックしてる状態
+  &:active {
+    color: purple;
+  }
+}
+
+div {
+  & span {
+    color: olive;
+
+    // 同じ要素が複数ならんでいるときに特定の要素だけを変更
+    &:nth-child(3) {
+      color: purple;
+    }
+
+    // 奇数のものだけ
+    &:nth-child(2n + 1) {
+      color: yellow;
+    }
+  }
+}

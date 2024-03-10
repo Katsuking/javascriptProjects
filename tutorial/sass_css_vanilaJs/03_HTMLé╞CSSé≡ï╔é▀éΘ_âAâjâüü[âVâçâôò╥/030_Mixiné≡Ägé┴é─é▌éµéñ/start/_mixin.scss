@@ -1,0 +1,29 @@
+@mixin animation(
+  $name,
+  $duration: 1s,
+  $timing-function: ease,
+  $delay: 0s,
+  $iteration-count: 1,
+  $direction: normal,
+  $fill-mode: forwards
+) {
+  animation: {
+    name: $name;
+    duration: $duration;
+    timing-function: $timing-function;
+    delay: $delay;
+    iteration-count: $iteration-count;
+    direction: $direction;
+    fill-mode: $fill-mode;
+  }
+}
+
+// $duration: 1s デフォルト1秒の設定
+// @mixin animation($name, $duration: 1s) {
+//   animation-name: $name;
+//   animation-duration: $duration;
+// }
+
+// 上記のようにひとつずつ書いてもいいが、
+// backgournd* や animation* のように複数のプロパティを持つものは、
+// まとめて書ける

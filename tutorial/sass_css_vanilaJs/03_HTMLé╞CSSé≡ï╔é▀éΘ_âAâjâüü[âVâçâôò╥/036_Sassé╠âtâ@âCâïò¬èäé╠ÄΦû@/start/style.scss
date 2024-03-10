@@ -1,0 +1,14 @@
+// 複数のファイルから読み込む場合、
+// まとめたファイル_global.scss等を作成して
+// そこに@forwar を使って記載する
+
+// @use 'child' as c;
+// @use 'child2' as c2;
+@use 'global' as g;
+h1 {
+  color: g.$cBule;
+}
+
+h2 {
+  color: g.$cRed;
+}

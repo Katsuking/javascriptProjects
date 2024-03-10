@@ -16,4 +16,7 @@ export const Todo = z.object({
 // tsでは、Object と その型は同じ名前でexportして、使える
 export type Todo = z.infer<typeof Todo>;
 
-export default Todo;
+export const ParamWithId = z.object({
+  id: z.string().min(1),
+});
+export type ParamWithId = z.infer<typeof ParamWithId>;

@@ -1,5 +1,5 @@
 import { db } from '../../lib/db';
-import Todo from './todos.schema';
+import { ParamWithId, Todo } from './todos.schema';
 import type { Todos } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
 
@@ -25,7 +25,7 @@ export const findAllTodos = async (
 // request paramsは空
 // 第2引数は、response body なので id がついたprismaの型を渡す
 // 第3引数には、request body なので、id はいらない zod で定義したものを使う
-export const createOne = async (
+export const createTodo = async (
   req: Request<{}, Todos, Todo>,
   res: Response,
   next: NextFunction,
@@ -41,4 +41,66 @@ export const createOne = async (
   } catch (error) {
     next(error);
   }
+};
+
+export const getTodoById = async (
+  req: Request<ParamWithId, Todos, {}>,
+  res: Response<Todos>,
+  next: NextFunction,
+) => {
+  try {
+    const id = req.params.id;
+    const todo = await db.todos.findUnique({
+      where: { id },
+    });
+
+    if (!todo) {
+      res.status(404);
+      throw new Error(`Todo with id ${req.params.id} not found`);
+    }
+
+    res.json(todo);
+  } catch (error) {}
+};
+
+export const updateTodoById = async (
+  req: Request<ParamWithId, Todos, Todo>,
+  res: Response<Todos>,
+  next: NextFunction,
+) => {
+  try {
+    const id = req.params.id;
+    const todo = await db.todos.update({
+      where: { id },
+      data: req.body,
+    });
+    if (!todo) {
+      throw new Error(`Could not update todo with ${req.params.id}`);
+    }
+    return res.json(todo);
+  } catch (error) {}
+};
+
+export const deleteTodo = async (
+  req: Request<ParamWithId, {}, {}>,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const id = req.params.id;
+    const todo = await db.todos.findUnique({
+      where: { id },
+    });
+
+    if (!todo) {
+      res.status(404);
+      throw new Error(`Could not update todo with ${req.params.id}`);
+    }
+
+    await db.todos.delete({
+      where: { id: todo.id },
+    });
+
+    res.sendStatus(204).end();
+  } catch (error) {}
 };

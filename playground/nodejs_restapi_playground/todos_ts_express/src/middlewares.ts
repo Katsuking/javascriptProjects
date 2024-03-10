@@ -5,6 +5,7 @@ import validatorsType from './interfaces/requestValidators';
 
 // req, res, nextは必ず返す
 // zodのvalidation で 上記3つを上書きする
+// generalize zod validation
 export const validateRequest = (validators: validatorsType) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {

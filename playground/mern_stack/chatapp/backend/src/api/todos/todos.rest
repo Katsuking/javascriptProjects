@@ -1,0 +1,55 @@
+# vscode拡張機能 rest client
+
+### get all todos
+GET http://localhost:5000/api/v1/todos
+
+### post todos O
+# save this data to db
+
+POST http://localhost:5000/api/v1/todos
+Content-Type: application/json
+
+{
+  "content": "Hello world",
+  "done": false
+}
+
+### post todos X
+# content can't be empty
+
+POST http://localhost:5000/api/v1/todos
+Content-Type: application/json
+
+{
+  "content": "",
+  "done": false
+}
+
+### idで一つのtodoを取得
+
+GET http://localhost:5000/api/v1/todos/cltbb8kj30000z2l2pfnpvp28
+
+### id で該当するtodoを更新
+
+PUT http://localhost:5000/api/v1/todos/cltbb8kj30000z2l2pfnpvp28
+Content-Type: application/json
+
+{
+  "content": "hi",
+  "done": true
+}
+
+### id で該当するtodoを更新
+# X contentを空で
+
+PUT http://localhost:5000/api/v1/todos/cltbb8kj30000z2l2pfnpvp28
+Content-Type: application/json
+
+{
+  "content": "",
+  "done": true
+}
+
+### id で該当するtodoの削除
+# 要 id 変更
+DELETE http://localhost:5000/api/v1/todos/cltl9wct900003p2o2qcxvkzf

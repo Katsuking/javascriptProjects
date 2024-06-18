@@ -55,11 +55,18 @@ package.json
 
 ```bash
 npm i express body-parser cookie-parser compression cors dotenv crypto
-npm i -D @types/express @types/body-parser @types/cookie-parser @types/compression @types/cors
+npm i -D @types/express @types/body-parser @types/cookie-parser @types/compression @types/cors @types/lodash
 ```
 
 mongodb を使う場合は、
 
 ```bash
 npm i mongoose
+```
+
+配列を扱う際の便利ツール
+
+```bash
+npm i lodash
+npm i -D @types/lodash
 ```

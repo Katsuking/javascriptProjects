@@ -7,6 +7,7 @@ import http from 'http';
 import 'dotenv/config';
 import mongoose from 'mongoose';
 import router from './router';
+import errorHandler from './middelwares/errorHandler.middlewares';
 
 const PORT = process.env.PORT;
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -26,6 +27,8 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 const server = http.createServer(app);
+
+app.use(errorHandler); // errorは最後に記載
 
 server.listen(PORT, () => {
   console.log('Server running on http://localhost:' + PORT);

@@ -1,8 +1,19 @@
 import { createUser, getUserByEmail } from '../db/user';
-import express, { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { authentication, random } from '../helpers';
+import { AuthenticationError } from '../errors/AuthenticationError';
 
-export const login = async (req: Request, res: Response) => {
+// localhost:8080/auth/login
+// {
+//   "email": "test@test2.com",
+//   "password": "aiueo"
+// }
+// postmanでクッキーが保存されていることを確認
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -16,25 +27,26 @@ export const login = async (req: Request, res: Response) => {
     );
     if (!user) {
       return res.status(400).json({ message: 'authentication failed' });
+      // next(new AuthenticationError('Auth error')); // custom error handlerを使う場合
     }
-    console.log('user:', user);
+    // console.log('user:', user);
 
     // password validation
-    const expectedHash = authentication(user.authentication?.salt!, password);
-    if (user.authentication?.password !== expectedHash) {
+    const expectedHash = authentication(user!.authentication?.salt!, password);
+    if (user!.authentication?.password !== expectedHash) {
       return res.status(400).json({ message: 'authentication failed' });
     }
 
     // sessionの新規登録
     const salt = random();
-    user.authentication.sessionToken = authentication(
+    user!.authentication.sessionToken = authentication(
       salt,
-      user._id.toString(),
+      user!._id.toString(),
     );
-    await user.save();
+    await user!.save(); // session情報を含めて、DB保存
 
     // cookieの設定
-    res.cookie('test-auth', user.authentication.sessionToken, {
+    res.cookie('test-auth', user!.authentication.sessionToken, {
       domain: 'localhost',
       path: '/',
     });
@@ -46,6 +58,12 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+// localhost:8080/auth/register
+// {
+//   "email": "test@test2.com",
+//   "password": "aiueo",
+//   "username": "testUser"
+// }
 export const register = async (req: Request, res: Response) => {
   try {
     // extract data from body
@@ -59,8 +77,7 @@ export const register = async (req: Request, res: Response) => {
 
     const exisitingUser = await getUserByEmail(email);
     if (exisitingUser) {
-      console.log('user is already registered');
-      return res.sendStatus(400);
+      return res.status(400).json({ message: 'user already exist' });
     }
 
     const salt = random();

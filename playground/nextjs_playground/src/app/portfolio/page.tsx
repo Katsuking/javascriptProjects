@@ -18,20 +18,20 @@ export default async function PortofioPage({
   // url paramsであるpageが文字列なので、numberに
   const currentPage = parseInt(page);
   const pageSize = 6;
-  const hereItemCount = 1;
+  const heroItemCount = 1;
 
   // dbから商品の個数を取得
   const totalItemCount = await prisma.product.count();
 
   // 全体のページ数を計算
-  const totalPages = Math.ceil((totalItemCount - hereItemCount) / pageSize);
+  const totalPages = Math.ceil((totalItemCount - heroItemCount) / pageSize);
 
   const products = await prisma.product.findMany({
     orderBy: { id: "desc" },
     // pagination のためにskipを追加
     skip:
-      (currentPage - 1) * pageSize + (currentPage === 1 ? 0 : hereItemCount),
-    take: pageSize + (currentPage === 1 ? hereItemCount : 0),
+      (currentPage - 1) * pageSize + (currentPage === 1 ? 0 : heroItemCount),
+    take: pageSize + (currentPage === 1 ? heroItemCount : 0),
   });
 
   return (
